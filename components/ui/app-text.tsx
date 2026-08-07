@@ -2,7 +2,7 @@ import React from "react";
 import { Text, TextProps } from "react-native";
 
 type AppTextProps = TextProps & {
-  children: string;
+  children: any;
   className?: string;
 };
 

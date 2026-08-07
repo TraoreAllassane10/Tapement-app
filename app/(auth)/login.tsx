@@ -2,6 +2,7 @@ import AppText from "@/components/ui/app-text";
 import Input from "@/components/ui/Input";
 import Screen from "@/components/ui/Screen";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -11,11 +12,33 @@ import {
   View,
 } from "react-native";
 
-const login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+import {
+  LoginFormData,
+  loginSchema,
+} from "@/features/auth/schemas/loginSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 
+const login = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (data: LoginFormData) => {
+    console.log(data);
+  };
 
   return (
     <Screen>
@@ -48,27 +71,49 @@ const login = () => {
           <View className="gap-5">
             <View className="gap-2">
               <AppText className="title text-sm">Adresse email</AppText>
-              <Input
-                placeholder="allassane@gmail.com"
-                value={email}
-                onChangeText={setEmail}
-                lefticon="mail-outline"
-                keyboardType="email-address"
-                autoCapitalize="none"
+              <Controller
+                control={control}
+                name="email"
+                render={({ field, fieldState }) => (
+                  <Input
+                    placeholder="allassane@gmail.com"
+                    value={field.value}
+                    onChangeText={field.onChange}
+                    lefticon="mail-outline"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                  />
+                )}
               />
+              {errors.email && (
+                <AppText className="text-xs text-red-500">
+                  {errors.email.message}
+                </AppText>
+              )}
             </View>
 
             <View className="gap-2">
               <AppText className="text-sm title">Mot de passe</AppText>
-              <Input
-                placeholder="***************"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={!showPassword}
-                lefticon="lock-closed-outline"
-                righticon={showPassword ? "eye-off-outline" : "eye-outline"}
-                onRightIconPress={() => setShowPassword(!showPassword)}
+              <Controller
+                control={control}
+                name="password"
+                render={({ field, fieldState }) => (
+                  <Input
+                    placeholder="***************"
+                    value={field.value}
+                    onChangeText={field.onChange}
+                    secureTextEntry={!showPassword}
+                    lefticon="lock-closed-outline"
+                    righticon={showPassword ? "eye-off-outline" : "eye-outline"}
+                    onRightIconPress={() => setShowPassword(!showPassword)}
+                  />
+                )}
               />
+              {errors.password && (
+                <AppText className="text-xs text-red-500">
+                  {errors.password.message}
+                </AppText>
+              )}
             </View>
 
             <Pressable className="align-self-end mt-1 self-end">
@@ -78,7 +123,7 @@ const login = () => {
             </Pressable>
 
             {/* Bouton Se connecter  */}
-            <Pressable className="btn-primary">
+            <Pressable className="btn-primary" onPress={handleSubmit(onSubmit)}>
               <AppText className="text-white font-bold text-base">
                 Se Connecter
               </AppText>
@@ -107,7 +152,7 @@ const login = () => {
             <AppText className="text-secondary text-sm">
               Nouveau sur Tapement ?
             </AppText>
-            <Pressable>
+            <Pressable onPress={() => router.push("/signup")}>
               <AppText className="text-accent font-semibold text-sm">
                 Créer un compte
               </AppText>
