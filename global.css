@@ -38,10 +38,14 @@
     .surface {
         @apply bg-[var(--surface)]
     }
+
+    .border-primary {
+        @apply border-[var(--primary)]
+    }
 }
 
 @layer components {
     .btn-primary {
-        @apply bg-[var(--primary)] text-white items-center justify-center rounded-lg p-4
+        @apply bg-[var(--primary)] text-white items-center justify-center rounded-xl py-4 shadow-lg shadow-blue-500/30 active:opacity-90 mt-2
     }
 }
