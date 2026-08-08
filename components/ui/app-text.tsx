@@ -9,13 +9,14 @@ type AppTextProps = TextProps & {
 export default function AppText({
   children,
   className,
+  style,
   ...props
 }: AppTextProps) {
   return (
     <Text
-      className={className}
-      style={{ fontFamily: "Poppins_400Regular" }}
+      style={[{ fontFamily: "Poppins_400Regular" }, style]}
       {...props}
+      className={className}
     >
       {children}
     </Text>

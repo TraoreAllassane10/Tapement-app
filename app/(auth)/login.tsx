@@ -38,6 +38,8 @@ const login = () => {
 
   const onSubmit = (data: LoginFormData) => {
     console.log(data);
+
+    router.replace("/(tabs)");
   };
 
   return (

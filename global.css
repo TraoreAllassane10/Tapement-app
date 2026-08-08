@@ -23,6 +23,10 @@
         @apply bg-[var(--primary)]
     }
 
+    .bg-secondary {
+         @apply bg-[var(--secondary)]
+    }
+
     .title {
         @apply text-[var(--text)]
     }
