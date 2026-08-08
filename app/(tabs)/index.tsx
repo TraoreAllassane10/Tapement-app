@@ -37,10 +37,13 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* Section QR */}
+        {/* Section QR code */}
         <View className="mb-6">
           {/* Bouton Scanner un code QR */}
-          <Pressable className="bg-primary p-8 rounded-xl mb-6 active:opacity-90">
+          <Pressable
+            onPress={() => router.push("/scanner")}
+            className="bg-primary p-8 rounded-xl mb-6 active:opacity-90"
+          >
             <View className="bg-blue-500/90 w-14 h-14 rounded-full items-center justify-center mb-6">
               <Ionicons name="qr-code-sharp" size={26} color={"white"} />
             </View>
