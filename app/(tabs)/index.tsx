@@ -59,7 +59,10 @@ export default function HomeScreen() {
           </Pressable>
 
           {/* Bouton Afficher mon code QR */}
-          <Pressable className="bg-secondary p-8 rounded-xl active:opacity-90">
+          <Pressable
+            onPress={() => router.push("/mon-qr")}
+            className="bg-secondary p-8 rounded-xl active:opacity-90"
+          >
             <View className="bg-sky-500/90 w-14 h-14 rounded-full items-center justify-center mb-6">
               <Ionicons name="qr-code-outline" size={26} color={"black"} />
             </View>
