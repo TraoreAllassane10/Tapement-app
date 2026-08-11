@@ -35,9 +35,6 @@ const signup = () => {
     },
   });
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const onSubmit = (data: SignupFormData) => {

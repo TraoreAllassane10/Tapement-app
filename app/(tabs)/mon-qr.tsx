@@ -19,7 +19,7 @@ export default function MonQrScreen() {
       <Card>
         {/* Profil */}
         <View className="mb-8">
-          <View className="mb-4 items-center p-6">
+          <View className="items-center p-6">
             <Image
               source={require("../../assets/images/profil.jpg")}
               style={{
@@ -31,7 +31,7 @@ export default function MonQrScreen() {
           </View>
 
           <View className="items-center justify-center gap-1">
-            <AppText className="title text-lg font-bold tracking-wide">
+            <AppText className="title text-lg tracking-wide">
               Traore Allassane
             </AppText>
 
