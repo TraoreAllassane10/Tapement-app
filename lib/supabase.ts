@@ -9,7 +9,7 @@ export const supabase = createClient(supabaseUrl, publishableKey, {
   auth: {
     storage: AsyncStorage, // Permet de conserver la session localement sur le telephone
     autoRefreshToken: true,
-    persistSession: true,
+    persistSession: true, // Persister la session localement
     detectSessionInUrl: false,
   },
 });

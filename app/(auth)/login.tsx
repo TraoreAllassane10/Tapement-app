@@ -1,9 +1,16 @@
 import AppText from "@/components/ui/app-text";
 import Input from "@/components/ui/Input";
 import Screen from "@/components/ui/Screen";
+import { useLogin } from "@/features/auth/hook/useLogin";
+import {
+  LoginFormData,
+  loginSchema,
+} from "@/features/auth/schemas/loginSchema";
 import { Ionicons } from "@expo/vector-icons";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -12,33 +19,12 @@ import {
   View,
 } from "react-native";
 
-import {
-  LoginFormData,
-  loginSchema,
-} from "@/features/auth/schemas/loginSchema";
-
-import { supabase } from "@/lib/supabase";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
-
-const login = () => {
+const LoginScreen = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-
-  useEffect(() => {
-    async function testSupabase() {
-      const { data, error } = await supabase.auth.getSession();
-
-      console.log("Session : ", data.session);
-      console.log("Erreur : ", error);
-    }
-
-    testSupabase();
-  }, []);
 
   const {
     control,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -49,10 +35,19 @@ const login = () => {
     },
   });
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log(data);
+  const mutationLogin = useLogin();
 
-    router.replace("/(tabs)");
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      const result = await mutationLogin.mutateAsync({
+        email: data.email,
+        password: data.password,
+      });
+
+      console.log("Login Reussi : ", result);
+    } catch (error) {
+      console.error("Login echoué : ", error);
+    }
   };
 
   return (
@@ -138,9 +133,13 @@ const login = () => {
             </Pressable>
 
             {/* Bouton Se connecter  */}
-            <Pressable className="btn-primary" onPress={handleSubmit(onSubmit)}>
+            <Pressable
+              className="btn-primary"
+              onPress={handleSubmit(onSubmit)}
+              disabled={mutationLogin.isPending}
+            >
               <AppText className="text-white font-bold text-base">
-                Se Connecter
+                {mutationLogin.isPending ? "Connexion..." : "Se Connecter"}
               </AppText>
             </Pressable>
 
@@ -179,4 +178,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default LoginScreen;

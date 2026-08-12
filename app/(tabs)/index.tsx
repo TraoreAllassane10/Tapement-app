@@ -3,12 +3,22 @@ import Card from "@/components/ui/card";
 import Screen from "@/components/ui/Screen";
 import TapementItem from "@/features/tapement/components/tapement-item";
 import { Tapements } from "@/features/tapement/constants/data";
+import { useAuth } from "@/providers/AuthProvider";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
 import { FlatList, Image, Pressable, ScrollView, View } from "react-native";
 
 export default function HomeScreen() {
+  const { user, logout } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Erreur logout :", error);
+    }
+  };
   return (
     <Screen>
       <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
@@ -19,7 +29,7 @@ export default function HomeScreen() {
               Bonjour
             </AppText>
             <AppText className="text-2xl tracking-wider text-accent font-bold">
-              Allassane
+              {user?.user_metadata.nom}
             </AppText>
           </View>
 
@@ -36,6 +46,10 @@ export default function HomeScreen() {
             </Pressable>
           </View>
         </View>
+
+        <Pressable onPress={handleLogout} className="bg-red-500 mb-4 p-1">
+          <AppText>Se deconnecter</AppText>
+        </Pressable>
 
         {/* Section QR code */}
         <View className="mb-6">

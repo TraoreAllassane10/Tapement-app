@@ -1,4 +1,6 @@
+import AuthGate from "@/components/AuthGate";
 import { queryClient } from "@/lib/queryClient";
+import { AuthProvider } from "@/providers/AuthProvider";
 import {
   Poppins_400Regular,
   Poppins_700Bold,
@@ -30,7 +32,11 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Stack screenOptions={{ headerShown: false }} />
+      <AuthProvider>
+        <AuthGate>
+          <Stack screenOptions={{ headerShown: false }} />
+        </AuthGate>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
