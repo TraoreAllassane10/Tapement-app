@@ -1,6 +1,7 @@
 import AppText from "@/components/ui/app-text";
 import Input from "@/components/ui/Input";
 import Screen from "@/components/ui/Screen";
+import { useSignup } from "@/features/auth/hook/useSignup";
 import {
   SignupFormData,
   signupSchema,
@@ -18,7 +19,7 @@ import {
   View,
 } from "react-native";
 
-const signup = () => {
+const SignupScreen = () => {
   const {
     control,
     reset,
@@ -37,8 +38,21 @@ const signup = () => {
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const onSubmit = (data: SignupFormData) => {
-    console.log(data);
+  const mutationSignup = useSignup();
+
+  const onSubmit = async (data: SignupFormData) => {
+    try {
+      const result = await mutationSignup.mutateAsync({
+        nom: data.nom,
+        prenom: data.prenom,
+        email: data.email,
+        password: data.password,
+      });
+
+      console.log("Signup réussi :", result);
+    } catch (error) {
+      console.error("Signup échoué :", error);
+    }
   };
 
   return (
@@ -81,7 +95,7 @@ const signup = () => {
                     placeholder="Traore"
                     value={field.value}
                     onChangeText={field.onChange}
-                    lefticon="mail-outline"
+                    lefticon="person-outline"
                   />
                 )}
               />
@@ -104,7 +118,7 @@ const signup = () => {
                     placeholder="Allassane"
                     value={field.value}
                     onChangeText={field.onChange}
-                    lefticon="mail-outline"
+                    lefticon="person-outline"
                   />
                 )}
               />
@@ -172,10 +186,14 @@ const signup = () => {
               </AppText>
             </Pressable>
 
-            {/* Bouton Se connecter  */}
-            <Pressable className="btn-primary" onPress={handleSubmit(onSubmit)}>
+            {/* Bouton S'inscrire  */}
+            <Pressable
+              className="btn-primary"
+              onPress={handleSubmit(onSubmit)}
+              disabled={mutationSignup.isPending}
+            >
               <AppText className="text-white font-bold text-base">
-                S'inscrire
+                {mutationSignup.isPending ? "Inscription..." : "S'inscrire"}
               </AppText>
             </Pressable>
 
@@ -214,4 +232,4 @@ const signup = () => {
   );
 };
 
-export default signup;
+export default SignupScreen;

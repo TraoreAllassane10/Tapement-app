@@ -3,7 +3,7 @@ import Input from "@/components/ui/Input";
 import Screen from "@/components/ui/Screen";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -16,11 +16,24 @@ import {
   LoginFormData,
   loginSchema,
 } from "@/features/auth/schemas/loginSchema";
+
+import { supabase } from "@/lib/supabase";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 
 const login = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  useEffect(() => {
+    async function testSupabase() {
+      const { data, error } = await supabase.auth.getSession();
+
+      console.log("Session : ", data.session);
+      console.log("Erreur : ", error);
+    }
+
+    testSupabase();
+  }, []);
 
   const {
     control,

@@ -1,8 +1,10 @@
+import { queryClient } from "@/lib/queryClient";
 import {
   Poppins_400Regular,
   Poppins_700Bold,
   useFonts,
 } from "@expo-google-fonts/poppins";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
@@ -26,5 +28,9 @@ export default function RootLayout() {
     return null;
   }
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Stack screenOptions={{ headerShown: false }} />
+    </QueryClientProvider>
+  );
 }
