@@ -1,6 +1,7 @@
 import AppText from "@/components/ui/app-text";
 import Card from "@/components/ui/card";
 import Screen from "@/components/ui/Screen";
+import { useProfile } from "@/features/profil/hook/useProfile";
 import TapementItem from "@/features/tapement/components/tapement-item";
 import { Tapements } from "@/features/tapement/constants/data";
 import { useAuth } from "@/providers/AuthProvider";
@@ -11,6 +12,8 @@ import { FlatList, Image, Pressable, ScrollView, View } from "react-native";
 
 export default function HomeScreen() {
   const { user, logout } = useAuth();
+
+  const { data: profile, isError, error, isLoading } = useProfile();
 
   const handleLogout = async () => {
     try {
@@ -29,7 +32,7 @@ export default function HomeScreen() {
               Bonjour
             </AppText>
             <AppText className="text-2xl tracking-wider text-accent font-bold">
-              {user?.user_metadata.nom}
+              {profile?.prenom}
             </AppText>
           </View>
 
