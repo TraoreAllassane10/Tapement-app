@@ -12,6 +12,7 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
+  Alert,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -46,7 +47,8 @@ const LoginScreen = () => {
 
       console.log("Login Reussi : ", result);
     } catch (error) {
-      console.error("Login echoué : ", error);
+      // console.error("Login echoué : ", error);
+      Alert.alert("Erreur", "La connexion a echoué !");
     }
   };
 

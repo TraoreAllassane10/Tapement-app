@@ -12,6 +12,7 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
+  Alert,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -49,9 +50,10 @@ const SignupScreen = () => {
         password: data.password,
       });
 
-      console.log("Signup réussi :", result);
+      // console.log("Signup réussi :", result);
     } catch (error) {
-      console.error("Signup échoué :", error);
+      // console.error("Signup échoué :", error);
+      Alert.alert("Erreur", "L'inscription a echoué !");
     }
   };
 
